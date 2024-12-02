@@ -75,3 +75,8 @@
                 for point in points
                 sum (cross-product prev point))
           2)))
+
+(defun remove-nth (n seq)
+  "Remove element with index N from SEQ."
+  (append (subseq seq 0 n)
+          (subseq seq (1+ n))))
