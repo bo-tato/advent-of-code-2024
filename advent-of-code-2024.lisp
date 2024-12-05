@@ -80,3 +80,14 @@
   "Remove element with index N from SEQ."
   (append (subseq seq 0 n)
           (subseq seq (1+ n))))
+
+(defun transpose (lists)
+  "Transpose a list of LISTS."
+  (apply #'mapcar #'list lists))
+
+(defun count-subseq (sequence-1 sequence-2)
+  "Returns the number of matches for SEQUENCE-1 within SEQUENCE-2."
+  (loop for pos = (search sequence-1 sequence-2)
+          then (search sequence-1 sequence-2 :start2 (1+ pos))
+        while pos
+        sum 1))
