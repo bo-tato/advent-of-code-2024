@@ -25,6 +25,10 @@
   "Return a list of all numbers in STRING."
   (mapcar #'parse-integer (ppcre:all-matches-as-strings "[-\\d]+" string)))
 
+(defun string-to-num-lists (string)
+  "Return a list containing a list of all numbers for each line of STRING."
+  (mapcar #'string-to-num-list (lines string)))
+
 (defun row+ (point &optional (distance 1))
   "Add DISTANCE to the row of POINT."
   (destructuring-bind (row . col) point
