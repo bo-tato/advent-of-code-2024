@@ -67,6 +67,14 @@
     (:left (col- point distance))
     (:right (col+ point distance))))
 
+(defun right-turn (direction)
+  "Rotates DIRECTION to the right 90 degrees."
+  (ecase direction
+    (:up :right)
+    (:right :down)
+    (:down :left)
+    (:left :up)))
+
 (defun cross-product (point1 point2)
   (bind (((x1 . y1) point1)
          ((x2 . y2) point2))
