@@ -15,7 +15,7 @@
   (:import-from :series
    :collect-length :until-if :series :collecting-fn)
   (:import-from :trivia
-   :if-match :match)
+   :lambda-match1 :if-match :match)
   (:import-from :function-cache
    :clear-cache :defcached)
   (:import-from :graph

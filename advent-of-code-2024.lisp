@@ -29,6 +29,18 @@
   "Return a list containing a list of all numbers for each line of STRING."
   (mapcar #'string-to-num-list (lines string)))
 
+(defun point+ (point1 point2)
+  (cons (+ (car point1) (car point2))
+        (+ (cdr point1) (cdr point2))))
+
+(defun point- (point1 point2)
+  (cons (- (car point1) (car point2))
+        (- (cdr point1) (cdr point2))))
+
+(defun point-in-bounds-p (point rows cols)
+  (and (<= 0 (car point) (1- rows))
+       (<= 0 (cdr point) (1- cols))))
+
 (defun row+ (point &optional (distance 1))
   "Add DISTANCE to the row of POINT."
   (destructuring-bind (row . col) point
