@@ -115,3 +115,14 @@
           then (search sequence-1 sequence-2 :start2 (1+ pos))
         while pos
         sum 1))
+
+(defun parse-map (string &key (parse #'identity))
+  "Returns a hash table mapping (row . col) to the character at that position in
+  STRING."
+  (loop with map = (dict)
+        for line in (lines string)
+        for row from 0
+        do (loop for char across line
+                 for col from 0
+                 do (setf (@ map (cons row col)) (funcall parse char)))
+        finally (return map)))
