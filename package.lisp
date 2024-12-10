@@ -1,7 +1,7 @@
 ;;;; package.lisp
 
 (defpackage :advent-of-code-2024
-  (:use :cl :alexandria :serapeum)
+  (:use :cl :alexandria :serapeum :dlist)
   (:import-from :uiop
    :read-file-lines)
   (:import-from :ppcre
@@ -15,7 +15,7 @@
   (:import-from :series
    :collect-length :until-if :series :collecting-fn)
   (:import-from :trivia
-   :lambda-match1 :if-match :match)
+   :lambda-match1 :if-match :match :let-match1 :let-match)
   (:import-from :function-cache
    :clear-cache :defcached)
   (:import-from :graph
