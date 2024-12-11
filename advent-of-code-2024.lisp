@@ -126,3 +126,17 @@
                  for col from 0
                  do (setf (@ map (cons row col)) (funcall parse char)))
         finally (return map)))
+
+(defun digits (number)
+  "Returns a list of digits in NUMBER."
+  (loop with result
+        for n = number then (floor n 10)
+        while (plusp n)
+        do (push (mod n 10) result)
+        finally (return result)))
+
+(defun digits-to-num (digits)
+  "Converts a list of DIGITS to a number."
+  (loop for n = 0 then (+ (* 10 n) digit)
+        for digit in digits
+        finally (return n)))
