@@ -140,3 +140,17 @@
   (loop for n = 0 then (+ (* 10 n) digit)
         for digit in digits
         finally (return n)))
+
+(defun flood-fill (start map visited)
+  "Returns a list of points forming the contiguous region around START that all
+  contain the same char in MAP. VISITED is updated with the points in the
+  region."
+  (loop with points = (list start)
+        and char = (@ map start)
+        for point = (pop points) while point
+        when (not (@ visited point))
+          do (setf (@ visited point) t)
+             (loop for neighbor in (neighbors point)
+                   when (eql char (@ map neighbor))
+                     do (push neighbor points))
+          and collect point))
