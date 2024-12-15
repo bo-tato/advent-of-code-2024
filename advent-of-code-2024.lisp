@@ -71,9 +71,17 @@
         else
           collect neighbor))
 
+(defun parse-direction (char)
+  "Returns direction for the chars ^v<>"
+  (ecase char
+    (#\^ :up)
+    (#\v :down)
+    (#\< :left)
+    (#\> :right)))
+
 (defun move (point direction &optional (distance 1))
   "Return the the coordinates DISTANCE away from POINT in DIRECTION."
-  (case direction
+  (ecase direction
     (:up (row- point distance))
     (:down (row+ point distance))
     (:left (col- point distance))
@@ -126,6 +134,15 @@
                  for col from 0
                  do (setf (@ map (cons row col)) (funcall parse char)))
         finally (return map)))
+
+(defun print-map (map)
+  "Prints MAP, a hash-map of (row . col) to characters."
+  (loop with rows = (apply #'max (mapcar #'car (hash-table-keys map)))
+        with cols = (apply #'max (mapcar #'cdr (hash-table-keys map)))
+        for row upto rows
+        do (loop for col upto cols
+                 do (write-char (@ map (cons row col))))
+           (terpri)))
 
 (defun digits (number)
   "Returns a list of digits in NUMBER."
