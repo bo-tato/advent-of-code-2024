@@ -18,11 +18,11 @@
    :lambda-match1 :if-match :match :let-match1 :let-match)
   (:import-from :function-cache
    :clear-cache :defcached)
-  (:import-from :graph
-   :digraph)
   (:import-from :sb-unicode
    :digit-value)
   (:import-from :place-utils
    :oldf :with-resolved-places)
   (:import-from :fset
-   :contains? :with :empty-set))
+   :contains? :with :empty-set)
+  (:import-from :graph-utils
+   :make-graph :add-node :add-edge :find-shortest-path :edge-weight :lookup-node))
