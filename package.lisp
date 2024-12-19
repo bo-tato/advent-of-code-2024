@@ -25,4 +25,5 @@
   (:import-from :fset
    :contains? :with :empty-set)
   (:import-from :graph-utils
-   :make-graph :add-node :add-edge :find-shortest-path :edge-weight :lookup-node))
+   :make-graph :add-node :add-edge :find-shortest-path :edge-weight :lookup-node
+   :map-nodes :delete-node))
