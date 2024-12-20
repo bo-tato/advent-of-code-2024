@@ -1,0 +1,36 @@
+(in-package :advent-of-code-2024)
+
+(defun calculate-saved (d1 d2)
+  (- (max d1 d2)
+     (min d1 d2)
+     2))
+
+(let* ((map (parse-map (read-file-into-string "input.txt")))
+       (flipped-map (flip-hash-table map))
+       (start (@ flipped-map #\S))
+       (end (@ flipped-map #\E))
+       (distance-from-end (dict)))
+  (setf (@ map start) #\.
+        (@ map end) #\.)
+  (loop with queue = (queue (cons end 0))
+        for (point . distance) = (deq queue) while point
+        when (not (@ distance-from-end point))
+          do (setf (@ distance-from-end point) distance)
+             (dolist (neighbor (neighbors point))
+               (when (eql #\. (@ map neighbor))
+                 (enq (cons neighbor (1+ distance)) queue))))
+  (summing
+    (do-hash-table (point char map)
+      (when (and (char= char #\#)
+                 (>= (cond
+                       ((every (eqls #\.) (list (@ map (move point :left))
+                                                (@ map (move point :right))))
+                        (calculate-saved (@ distance-from-end (move point :left))
+                                         (@ distance-from-end (move point :right))))
+                       ((every (eqls #\.) (list (@ map (move point :up))
+                                                (@ map (move point :down))))
+                        (calculate-saved (@ distance-from-end (move point :up))
+                                         (@ distance-from-end (move point :down))))
+                       (t 0))
+                     100))
+        (sum 1)))))
