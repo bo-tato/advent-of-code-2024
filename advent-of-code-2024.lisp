@@ -61,6 +61,13 @@
   (destructuring-bind (row . col) point
     (cons row (- col distance))))
 
+(defun taxicab-distance (point1 point2)
+  "Returns the taxicab distance between POINT1 and POINT2."
+  (destructuring-bind (row-diff . col-diff)
+      (point- point1 point2)
+    (+ (abs row-diff)
+       (abs col-diff))))
+
 (defun neighbors (point &key directions)
   "Returns a list of the four points adjacent to POINT."
   (loop for f in '(row+ row- col+ col-)
