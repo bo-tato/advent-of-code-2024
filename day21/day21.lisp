@@ -38,7 +38,7 @@ X^A
         (dotimes (_ (abs col-diff))
           (write-char #\< stream))))))
 
-(defun find-shortest-input (outputs target-keypad)
+(defcached find-shortest-input (outputs target-keypad)
   (with-output-to-string (stream)
       (loop with flipped-keypad = (flip-hash-table target-keypad)
             for position = (@ flipped-keypad #\A) then dest
@@ -47,10 +47,16 @@ X^A
             do (write-string (shortest-path position dest target-keypad) stream)
                (write-char #\A stream))))
 
+(defun apply-directional (string times)
+  (loop for output = string
+        then (find-shortest-input output *directional-keypad*)
+        repeat times
+        finally (return output)))
+
 (loop for code in (read-file-lines "input.txt")
-      sum (* (~> code
-                 (find-shortest-input *numeric-keypad*)
-                 (find-shortest-input *directional-keypad*)
-                 (find-shortest-input *directional-keypad*)
-                 length)
+      sum (* (loop for section in (ppcre:all-matches-as-strings
+                                   ".*?A"
+                                   (apply-directional (find-shortest-input code *numeric-keypad*) 10))
+                   sum (length (apply-directional section 15)))
+             ;; use 1 and 1 instead of 10 and 15 for part1
              (parse-integer (str:trim-right code :char-bag "A"))))
