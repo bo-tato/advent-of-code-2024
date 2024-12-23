@@ -1,5 +1,4 @@
 (in-package :advent-of-code-2024)
-(in-readtable :aoc-sugar)
 
 (defparameter *graph* (make-graph))
 
@@ -10,7 +9,7 @@
          (add-edge *graph* node1 node2))
 
 (summing
-  (map-nodes (lambda (node id)
+  (map-nodes (lambda (node _id)
                (when (str:starts-with? "t" node)
                  (map-combinations (lambda-match1 (list n1 n2)
                                      (and (edge-exists? *graph* n1 n2)
@@ -22,3 +21,21 @@
                                    (graph-utils:neighbors *graph* node :return-ids? nil)
                                    :length 2)))
              *graph*))
+
+(defparameter *largest-clique* nil)
+(defun bron-kerbosch (r p x)
+  "https://en.wikipedia.org/wiki/Bron%E2%80%93Kerbosch_algorithm"
+  (when (and (null p)
+             (null x)
+             (> (length r) (length *largest-clique*)))
+    (setf *largest-clique* r))
+  (loop for node in (copy-list p)
+        for neighbors = (graph-utils:neighbors *graph* node :return-ids? nil)
+        do (bron-kerbosch (cons node r)
+                          (intersection p neighbors)
+                          (intersection x neighbors))
+           (deletef p node)
+           (push node x)))
+
+(bron-kerbosch '() (graph-utils:list-nodes *graph*) '())
+(str:join "," (sort *largest-clique* #'string<))
