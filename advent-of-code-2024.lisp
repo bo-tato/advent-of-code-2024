@@ -120,8 +120,9 @@
   (append (subseq seq 0 n)
           (subseq seq (1+ n))))
 
-(defun transpose (lists)
-  "Transpose a list of LISTS."
+(defun transpose (sequences)
+  "Transpose a list of SEQUENCES."
+  (apply #'map 'list 'list sequences)
   (apply #'mapcar #'list lists))
 
 (defun count-subseq (sequence-1 sequence-2)
